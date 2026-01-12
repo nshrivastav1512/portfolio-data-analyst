@@ -5,8 +5,8 @@ import { projects } from '../data/projects';
 import GlassCard from './ui/GlassCard';
 import { cn } from '../utils/cn';
 
-const Story = ({ onBack, onFinish, onViewCaseStudy }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
+    const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [direction, setDirection] = useState(1);
     const [imageIndex, setImageIndex] = useState(0);
 
@@ -72,14 +72,94 @@ const Story = ({ onBack, onFinish, onViewCaseStudy }) => {
 
     return (
         <div className="relative w-full h-screen overflow-hidden flex flex-col bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-500">
-            {/* Dynamic Background */}
-            <div className={`absolute inset-0 bg-gradient-to-br transition-colors duration-1000 ease-in-out opacity-50 dark:opacity-100 ${currentProject.color}`}></div>
+            {/* Dynamic Background with Animated Orbs */}
+            <div className="absolute inset-0 overflow-hidden">
+                {/* Base gradient that transitions with project */}
+                <motion.div
+                    key={`bg-${currentIndex}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    className={`absolute inset-0 bg-gradient-to-br opacity-40 dark:opacity-60 ${currentProject.color}`}
+                />
+
+                {/* Animated Floating Orbs */}
+                <motion.div
+                    key={`orb1-${currentIndex}`}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{
+                        opacity: 0.6,
+                        scale: 1,
+                        x: [0, 50, -30, 0],
+                        y: [0, -30, 20, 0]
+                    }}
+                    transition={{
+                        opacity: { duration: 0.8 },
+                        scale: { duration: 0.8 },
+                        x: { duration: 20, repeat: Infinity, ease: "easeInOut" },
+                        y: { duration: 15, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className={`absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[120px] bg-gradient-to-br ${currentProject.color}`}
+                />
+                <motion.div
+                    key={`orb2-${currentIndex}`}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{
+                        opacity: 0.5,
+                        scale: 1,
+                        x: [0, -40, 30, 0],
+                        y: [0, 40, -20, 0]
+                    }}
+                    transition={{
+                        opacity: { duration: 0.8, delay: 0.2 },
+                        scale: { duration: 0.8, delay: 0.2 },
+                        x: { duration: 25, repeat: Infinity, ease: "easeInOut" },
+                        y: { duration: 18, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className={`absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[100px] bg-gradient-to-tr ${currentProject.color}`}
+                />
+
+                {/* Third accent orb */}
+                <motion.div
+                    key={`orb3-${currentIndex}`}
+                    initial={{ opacity: 0 }}
+                    animate={{
+                        opacity: 0.3,
+                        x: [0, 60, -40, 0],
+                        y: [0, -50, 30, 0]
+                    }}
+                    transition={{
+                        opacity: { duration: 1, delay: 0.4 },
+                        x: { duration: 30, repeat: Infinity, ease: "easeInOut" },
+                        y: { duration: 22, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className="absolute top-[40%] left-[60%] w-[400px] h-[400px] rounded-full blur-[80px] bg-gradient-to-r from-white/20 to-transparent dark:from-white/10"
+                />
+            </div>
+
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+
+            {/* Standard Grid Background */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+            {/* Glow effect following project accent */}
+            <motion.div
+                key={`glow-${currentIndex}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className={`absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-transparent to-black/20`}
+            />
 
             {/* Top Bar */}
             <div className="relative z-20 flex justify-between items-center p-6 md:p-8">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-sm">
-                    <div className="w-3 h-3 rounded-full bg-gradient-to-tr from-blue-400 to-green-400 animate-pulse"></div>
+                    <motion.div
+                        key={`dot-${currentIndex}`}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className={`w-3 h-3 rounded-full bg-gradient-to-tr ${currentProject.color.replace('/20', '')} animate-pulse`}
+                    />
                     <span className="font-semibold text-sm text-gray-800 dark:text-white/90">Portfolio 2026</span>
                 </div>
                 <div className="text-sm font-medium text-gray-600 dark:text-white/60 bg-white/40 dark:bg-black/20 px-4 py-2 rounded-full backdrop-blur-md border border-white/20 dark:border-white/10">
@@ -153,7 +233,7 @@ const Story = ({ onBack, onFinish, onViewCaseStudy }) => {
                                 </motion.div>
 
                                 <motion.button
-                                    onClick={() => onViewCaseStudy(currentProject)}
+                                    onClick={() => onViewCaseStudy(currentProject, currentIndex)}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 0.7 }}

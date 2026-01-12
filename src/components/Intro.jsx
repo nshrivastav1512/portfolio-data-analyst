@@ -1,7 +1,37 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { BarChart3, PieChart, Database, Activity, Globe, Zap, Layers, Command, Cpu, Search, MousePointer2, Code, Terminal, Server, Cloud, Smartphone, Wifi, Lock, Share2, MessageSquare, Video } from 'lucide-react';
 import ThemeToggle from './ui/ThemeToggle';
+
+// --- Typing Animation Component ---
+const TypingText = ({ text, delay = 0, className = '' }) => {
+    const [displayText, setDisplayText] = useState('');
+    const [showCursor, setShowCursor] = useState(true);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i <= text.length) {
+                    setDisplayText(text.slice(0, i));
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => setShowCursor(false), 1000);
+                }
+            }, 50);
+            return () => clearInterval(interval);
+        }, delay);
+        return () => clearTimeout(timeout);
+    }, [text, delay]);
+
+    return (
+        <span className={className}>
+            {displayText}
+            {showCursor && <span className="animate-pulse">_</span>}
+        </span>
+    );
+};
 
 const FloatingElement = ({ children, depth, x, y, mouseX, mouseY, delay = 0, scale = 1 }) => {
     // Increased movement range (150px) for "extreme" parallax
@@ -82,6 +112,9 @@ const Intro = ({ onNext }) => {
             {/* Background Gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-blue-950/30 dark:via-black dark:to-purple-950/30 animate-pulse-slow transition-colors duration-500"></div>
 
+            {/* Standard Grid Background */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
             {/* Theme Toggle */}
             <div className="absolute top-6 right-6 z-50">
                 <ThemeToggle />
@@ -127,15 +160,20 @@ const Intro = ({ onNext }) => {
                             </div>
 
                             <h1 className="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tight drop-shadow-sm dark:drop-shadow-2xl text-gray-900 dark:text-white">
-                                Data Insights <br />
+                                <TypingText text="Data Insights" delay={500} /> <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-purple-600 dark:from-blue-400 dark:via-teal-300 dark:to-purple-400">
-                                    That Matter
+                                    <TypingText text="That Matter" delay={1500} />
                                 </span>
                             </h1>
 
-                            <p className="text-lg text-gray-700 dark:text-white/70 max-w-lg mx-auto leading-relaxed font-medium dark:font-normal">
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 2.5, duration: 0.8 }}
+                                className="text-lg text-gray-700 dark:text-white/70 max-w-lg mx-auto leading-relaxed font-medium dark:font-normal"
+                            >
                                 Explore a collection of data-driven stories, interactive dashboards, and analytical solutions.
-                            </p>
+                            </motion.p>
 
                             <button
                                 onClick={onNext}
@@ -149,6 +187,40 @@ const Intro = ({ onNext }) => {
                         </div>
                     </div>
                 </div>
+            </motion.div>
+
+            {/* HUD Corner Decorations */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+                className="absolute top-4 left-4 text-gray-400 dark:text-cyan-500/50 text-xs font-mono hidden md:block"
+            >
+                <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    <span>STATUS: ONLINE</span>
+                </div>
+                <div className="text-gray-300 dark:text-cyan-500/30">SYS.PORTFOLIO v2.0</div>
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.8 }}
+                className="absolute bottom-4 left-4 text-gray-400 dark:text-cyan-500/50 text-xs font-mono hidden md:block"
+            >
+                <div>▸ ANALYSIS READY</div>
+                <div className="text-gray-300 dark:text-cyan-500/30">NODE: DATA_INSIGHTS</div>
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2 }}
+                className="absolute bottom-4 right-4 text-gray-400 dark:text-cyan-500/50 text-xs font-mono text-right hidden md:block"
+            >
+                <div>{new Date().toISOString().slice(0, 10)}</div>
+                <div className="text-gray-300 dark:text-cyan-500/30">▸ CLEARANCE: PUBLIC</div>
             </motion.div>
         </div>
     );

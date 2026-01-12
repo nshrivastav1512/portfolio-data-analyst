@@ -2,29 +2,67 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Intro from './components/Intro';
 import Story from './components/Story';
+// Toggle between Outro (original) and OutroAdvanced (new with contact features)
 import Outro from './components/Outro';
+import OutroAdvanced from './components/OutroAdvanced';
 import CaseStudy from './components/CaseStudy';
+import About from './components/About';
+import AboutNormal from './components/AboutNormal';
+
+// SET TO true TO USE THE NEW OUTRO WITH ALL CONTACT FEATURES
+const USE_ADVANCED_OUTRO = true;
 
 const App = () => {
-  const [view, setView] = useState('intro'); // 'intro', 'story', 'outro', 'case-study'
+  const [view, setView] = useState('intro'); // 'intro', 'about', 'story', 'outro', 'case-study'
   const [selectedProject, setSelectedProject] = useState(null);
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [useDataFileTheme, setUseDataFileTheme] = useState(true);
 
-  const handleViewCaseStudy = (project) => {
+  const handleViewCaseStudy = (project, index) => {
     setSelectedProject(project);
+    setCurrentProjectIndex(index);
     setView('case-study');
   };
 
+  const handleBackFromCaseStudy = () => {
+    setView('story');
+  };
+
+  const AboutComponent = useDataFileTheme ? About : AboutNormal;
+
   return (
-    <div className="bg-gray-50 dark:bg-black min-h-screen text-gray-900 dark:text-white font-sans selection:bg-blue-500 selection:text-white overflow-hidden transition-colors duration-500">
+    <div className="bg-black min-h-screen text-white font-sans selection:bg-blue-500 selection:text-white overflow-hidden">
+
       <AnimatePresence mode="wait">
         {view === 'intro' && (
           <motion.div
             key="intro"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
             transition={{ duration: 0.8 }}
             className="absolute inset-0 z-10"
           >
-            <Intro onNext={() => setView('story')} />
+            <Intro onNext={() => setView('about')} />
+          </motion.div>
+        )}
+
+        {view === 'about' && (
+          <motion.div
+            key={`about-${useDataFileTheme ? 'data' : 'normal'}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            transition={{ duration: 0.8 }}
+            className="absolute inset-0 z-20"
+          >
+            <AboutComponent
+              onNext={() => setView('story')}
+              onBack={() => setView('intro')}
+              onJourney={() => setView('outro')}
+              onToggleTheme={() => setUseDataFileTheme(!useDataFileTheme)}
+              isDataFileTheme={useDataFileTheme}
+            />
           </motion.div>
         )}
 
@@ -35,12 +73,13 @@ const App = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
             transition={{ duration: 0.8 }}
-            className="absolute inset-0 z-20"
+            className="absolute inset-0 z-30"
           >
             <Story
-              onBack={() => setView('intro')}
+              onBack={() => setView('about')}
               onFinish={() => setView('outro')}
               onViewCaseStudy={handleViewCaseStudy}
+              initialIndex={currentProjectIndex}
             />
           </motion.div>
         )}
@@ -56,7 +95,7 @@ const App = () => {
           >
             <CaseStudy
               project={selectedProject}
-              onBack={() => setView('story')}
+              onBack={handleBackFromCaseStudy}
             />
           </motion.div>
         )}
@@ -68,9 +107,13 @@ const App = () => {
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
-            className="absolute inset-0 z-30"
+            className="absolute inset-0 z-30 overflow-y-auto"
           >
-            <Outro onRestart={() => setView('intro')} />
+            {USE_ADVANCED_OUTRO ? (
+              <OutroAdvanced onRestart={() => setView('intro')} />
+            ) : (
+              <Outro onRestart={() => setView('intro')} />
+            )}
           </motion.div>
         )}
       </AnimatePresence>

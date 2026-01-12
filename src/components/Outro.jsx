@@ -202,7 +202,7 @@ const Outro = ({ onRestart }) => {
                                     <div className="flex flex-wrap gap-3">
                                         {skill.items.map((item, j) => (
                                             <span key={j} className="px-4 py-2 rounded-full bg-slate-100 dark:bg-black/40 text-sm font-medium text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-white/10 hover:border-cyan-500/30 transition-colors">
-                                                {item}
+                                                {typeof item === 'string' ? item : item.name}
                                             </span>
                                         ))}
                                     </div>

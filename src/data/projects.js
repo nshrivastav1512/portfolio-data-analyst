@@ -20,8 +20,8 @@ export const projects = [
     id: 2,
     month: "PROJECT 2",
     title: "Healthcare Patient Analytics",
-    desc: "Optimized patient flow and resource allocation for a multi-specialty hospital. Reduced wait times by 15% through predictive modeling.",
-    tools: ["Python", "Pandas", "Tableau"],
+    desc: "Analysed patient visits, financial performance, and medical procedures for a healthcare organization. Built an interactive dashboard allowing stakeholders to track KPIs, monitor revenue, and understand patient demographics.",
+    tools: ["Power BI", "SQL Server", "Power Query", "DAX"],
     color: "from-emerald-500/20 via-green-500/20 to-lime-500/20",
     accent: "text-emerald-400",
     icon: Activity,
@@ -32,7 +32,42 @@ export const projects = [
       "/images/project2/3.png",
       "/images/project2/4.png",
       "/images/project2/5.png"
-    ]
+    ],
+    caseStudy: {
+      analyst: "Nikhil Shrivastav",
+      organization: "Mmind Technology",
+      date: "December 22, 2025",
+      executiveSummary: {
+        overview: "This project analyses patient visits, financial performance, and medical procedures for a healthcare organization. We combined data from multiple CSV files into a central SQL database and built an interactive dashboard using Power BI.",
+        keyFindings: [
+          { label: "Total Revenue", value: "$101.5 Million", desc: "across 28,000 patient encounters" },
+          { label: "Primary Visit Type", value: "Ambulatory (44.95%)", desc: "followed by Wellness (22.59%)" },
+          { label: "Patient Demographics", value: "60+ Age Group", desc: "largest segment requiring geriatric care" },
+          { label: "Financial Risk", value: "$70.4M Patient Pocket", desc: "vs $31.1M insurance coverage" }
+        ]
+      },
+      methodology: {
+        phases: [
+          { phase: "Data Acquisition", desc: "5 CSV datasets: Patients, Encounters, Procedures, Organizations, Payers" },
+          { phase: "Database Design", desc: "SQL Server with linked tables using Primary Keys" },
+          { phase: "Data Transformation", desc: "Power Query for formatting and Age Group categorization" },
+          { phase: "DAX Calculations", desc: "Total Patients, Revenue, Average Age, Coverage Rate" },
+          { phase: "Dashboard Design", desc: "Multi-page interactive report with navigation" }
+        ]
+      },
+      dashboardPages: [
+        { title: "Executive Summary", insights: ["974 Total Patients, 28K Encounters", "45% Ambulatory visits", "Revenue peaked 2014/2020, declining 2022"] },
+        { title: "Financial Analysis", insights: ["$101.5M total revenue", "$70.4M Patient Pocket (uninsured)", "Medicare & Medicaid top contributors"] },
+        { title: "Patient Demographics", insights: ["Average age: 73.78 years", "80% Non-Hispanic, 20% Hispanic", "Gender split nearly even"] },
+        { title: "Clinical Analysis", insights: ["48K procedures, $2,200 avg cost", "Top: Heart Failure, Hyperlipidemia", "Activity spikes in March & October"] }
+      ],
+      recommendations: [
+        "Address Insurance Gaps: Financial counselling for Medicaid/Medicare enrollment",
+        "Specialized Geriatric Care: Invest in elderly units and home-care partnerships",
+        "Optimize Outpatient Services: Marketing for Ambulatory services",
+        "Cost Control: Audit billing for Ambulatory visits"
+      ]
+    }
   },
   {
     id: 3,

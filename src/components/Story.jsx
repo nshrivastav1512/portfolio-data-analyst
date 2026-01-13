@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { projects } from '../data/projects';
 import GlassCard from './ui/GlassCard';
 import { cn } from '../utils/cn';
+import { resolveImagePath } from '../utils/imageHelper';
 
 const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
@@ -71,7 +72,7 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
     };
 
     return (
-        <div className="relative w-full h-screen overflow-hidden flex flex-col bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-500">
+        <div className="relative w-full min-h-screen md:h-screen overflow-y-auto md:overflow-hidden flex flex-col bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-500">
             {/* Dynamic Background with Animated Orbs */}
             <div className="absolute inset-0 overflow-hidden">
                 {/* Base gradient that transitions with project */}
@@ -153,17 +154,20 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
 
             {/* Top Bar */}
             <div className="relative z-20 flex justify-between items-center p-6 md:p-8">
-                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-sm">
-                    <motion.div
-                        key={`dot-${currentIndex}`}
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className={`w-3 h-3 rounded-full bg-gradient-to-tr ${currentProject.color.replace('/20', '')} animate-pulse`}
-                    />
-                    <span className="font-semibold text-sm text-gray-800 dark:text-white/90">Portfolio 2026</span>
-                </div>
-                <div className="text-sm font-medium text-gray-600 dark:text-white/60 bg-white/40 dark:bg-black/20 px-4 py-2 rounded-full backdrop-blur-md border border-white/20 dark:border-white/10">
-                    Project {currentIndex + 1} / {projects.length}
+                <div className="flex items-center gap-4 px-4 py-2 rounded-full bg-white/40 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-sm">
+                    <div className="flex items-center gap-2">
+                        <motion.div
+                            key={`dot-${currentIndex}`}
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className={`w-3 h-3 rounded-full bg-gradient-to-tr ${currentProject.color.replace('/20', '')} animate-pulse`}
+                        />
+                        <span className="font-semibold text-sm text-gray-800 dark:text-white/90">Portfolio 2026</span>
+                    </div>
+                    <div className="w-px h-4 bg-gray-400/50 dark:bg-white/20"></div>
+                    <span className="font-mono text-xs font-medium text-gray-600 dark:text-white/70">
+                        {String(currentIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+                    </span>
                 </div>
             </div>
 
@@ -177,7 +181,7 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
                         initial="enter"
                         animate="center"
                         exit="exit"
-                        className="absolute w-full max-w-7xl px-6 md:px-12 flex items-center justify-center"
+                        className="relative md:absolute w-full max-w-7xl px-6 md:px-12 flex items-center justify-center py-12 md:py-0"
                     >
                         <div className={cn(
                             "grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center w-full",
@@ -207,7 +211,7 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
                                     <div className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/20 dark:border-white/10 backdrop-blur-sm shadow-lg">
                                         <currentProject.icon className={`w-8 h-8 ${currentProject.accent}`} />
                                     </div>
-                                    <h2 className="text-4xl md:text-5xl font-bold leading-tight text-gray-900 dark:text-white">{currentProject.title}</h2>
+                                    <h2 className="text-3xl md:text-5xl font-bold leading-tight text-gray-900 dark:text-white">{currentProject.title}</h2>
                                 </motion.div>
 
                                 <motion.p
@@ -274,7 +278,7 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
                                                 <AnimatePresence mode="wait">
                                                     <motion.img
                                                         key={currentProject.images?.[imageIndex] || 'placeholder'}
-                                                        src={currentProject.images?.[imageIndex] || "/api/placeholder/800/500"}
+                                                        src={currentProject.images?.[imageIndex] ? resolveImagePath(currentProject.images[imageIndex]) : "/api/placeholder/800/500"}
                                                         alt="Project Preview"
                                                         initial={{ opacity: 0 }}
                                                         animate={{ opacity: 1 }}
@@ -317,6 +321,8 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
                 >
                     <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-white/70 group-hover:text-black dark:group-hover:text-white" />
                 </button>
+
+
 
                 <button
                     onClick={handleNext}

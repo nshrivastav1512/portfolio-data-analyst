@@ -7,11 +7,11 @@ export const profile = {
   phone: "+91 9067557516",
   linkedin: "https://www.linkedin.com/in/nshrivastav1512/",
   github: "https://github.com/nshrivastav1512",
-  kaggle: "https://www.kaggle.com/nikhilshrivastav",
+  kaggle: "https://www.kaggle.com/nshrivastav1512",
   whatsapp: "+919067557516",
   location: "India",
   summary: "A results-driven data analyst with over 2 years of experience combining software engineering and analytics.",
-  resumeUrl: "/resume.pdf"
+  resumeUrl: "/src/assets/Nikhil Data Analyst Resume.pdf"
 };
 
 // Chronological Order: Oldest -> Newest
@@ -27,7 +27,7 @@ export const timelineData = [
     skills: ["Mathematics", "Science", "English"],
     icon: School,
     color: "text-yellow-400",
-    bg: "bg-yellow-900/20"
+    bg: "bg-white/10 dark:bg-white/5"
   },
   {
     type: 'edu',

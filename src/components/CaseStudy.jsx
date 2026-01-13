@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ExternalLink, Calendar, Wrench, BarChart2, FileText, CheckCircle, TrendingUp, Database, ChevronLeft, ChevronRight } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
+import { resolveImagePath } from '../utils/imageHelper';
 
 const CaseStudy = ({ project, onBack }) => {
     const { scrollYProgress } = useScroll();
@@ -109,13 +110,18 @@ const CaseStudy = ({ project, onBack }) => {
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center bg-white/50 dark:bg-black/20 backdrop-blur-md border-b border-white/10">
-                <button
-                    onClick={onBack}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border ${accent.border} transition-all text-sm font-bold`}
-                >
-                    <ArrowLeft size={16} /> Back to Projects
-                </button>
-                <div className={`text-sm font-mono opacity-60 hidden md:block ${project.accent}`}>CASE STUDY: {project.title}</div>
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={onBack}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border ${accent.border} transition-all text-sm font-bold`}
+                    >
+                        <ArrowLeft size={16} /> Back
+                    </button>
+                    <div className="hidden md:block h-6 w-px bg-gray-400/30 dark:bg-white/20"></div>
+                    <div className={`hidden md:block text-sm font-mono opacity-60 truncate max-w-[300px] ${project.accent}`}>
+                        CASE STUDY: {project.title}
+                    </div>
+                </div>
             </nav>
 
             {/* Hero Section */}
@@ -276,7 +282,7 @@ const CaseStudy = ({ project, onBack }) => {
                                     <AnimatePresence mode="wait">
                                         <motion.img
                                             key={currentImageIndex}
-                                            src={images[currentImageIndex]}
+                                            src={resolveImagePath(images[currentImageIndex])}
                                             alt={`${project.title} Screenshot ${currentImageIndex + 1}`}
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}

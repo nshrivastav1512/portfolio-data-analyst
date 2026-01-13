@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { BarChart3, PieChart, Database, Activity, Globe, Zap, Layers, Command, Cpu, Search, MousePointer2, Code, Terminal, Server, Cloud, Smartphone, Wifi, Lock, Share2, MessageSquare, Video } from 'lucide-react';
-import ThemeToggle from './ui/ThemeToggle';
+
 
 // --- Typing Animation Component ---
 const TypingText = ({ text, delay = 0, className = '' }) => {
@@ -115,10 +115,7 @@ const Intro = ({ onNext }) => {
             {/* Standard Grid Background */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
-            {/* Theme Toggle */}
-            <div className="absolute top-6 right-6 z-50">
-                <ThemeToggle />
-            </div>
+            {/* Theme Toggle - Moved to App.jsx */}
 
             {/* Floating Parallax Elements */}
             {elements.map((el, i) => (
@@ -137,7 +134,7 @@ const Intro = ({ onNext }) => {
                 <div className="relative group perspective-1000">
                     <div
                         className="
-              relative p-12 md:p-16 rounded-[2.5rem] text-center max-w-2xl mx-6 overflow-hidden 
+              relative p-8 md:p-16 rounded-[2.5rem] text-center max-w-2xl mx-6 overflow-hidden 
               bg-white/60 dark:bg-white/5 
               backdrop-blur-2xl 
               border border-white/40 dark:border-white/10 
@@ -159,7 +156,7 @@ const Intro = ({ onNext }) => {
                                 <span className="font-semibold text-gray-800 dark:text-white tracking-wide text-sm uppercase">Portfolio 2026</span>
                             </div>
 
-                            <h1 className="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tight drop-shadow-sm dark:drop-shadow-2xl text-gray-900 dark:text-white">
+                            <h1 className="text-4xl md:text-7xl font-bold leading-[1.1] tracking-tight drop-shadow-sm dark:drop-shadow-2xl text-gray-900 dark:text-white">
                                 <TypingText text="Data Insights" delay={500} /> <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-purple-600 dark:from-blue-400 dark:via-teal-300 dark:to-purple-400">
                                     <TypingText text="That Matter" delay={1500} />

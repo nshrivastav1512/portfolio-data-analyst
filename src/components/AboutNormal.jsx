@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronLeft, BarChart3, Database, Code, Zap, User } from 'lucide-react';
-import ThemeToggle from './ui/ThemeToggle';
 import GlassCard from './ui/GlassCard';
+import { resolveImagePath } from '../utils/imageHelper';
 
 // --- Rotating Role Typing Animation ---
 const RotatingTypingText = ({ roles, className = '' }) => {
@@ -46,7 +46,7 @@ const RotatingTypingText = ({ roles, className = '' }) => {
     );
 };
 
-const AboutNormal = ({ onNext, onBack, onJourney, onToggleTheme, isDataFileTheme }) => {
+const AboutNormal = ({ onNext, onBack, onJourney }) => {
     const roles = [
         "Data Analyst",
         "Prompt Engineer",
@@ -64,7 +64,7 @@ const AboutNormal = ({ onNext, onBack, onJourney, onToggleTheme, isDataFileTheme
     ];
 
     return (
-        <div className="relative w-full h-screen overflow-hidden flex items-center justify-center bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-500">
+        <div className="relative w-full min-h-screen md:h-screen overflow-y-auto md:overflow-hidden overflow-x-hidden flex items-center justify-center bg-slate-50 dark:bg-[#0a0a0a] py-12 md:py-0 transition-colors duration-500">
 
             {/* Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-blue-950/30 dark:via-black dark:to-purple-950/30 transition-colors duration-500" />
@@ -73,36 +73,24 @@ const AboutNormal = ({ onNext, onBack, onJourney, onToggleTheme, isDataFileTheme
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 
             {/* Floating Orbs */}
-            <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px]" />
-            <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px]" />
-
-            {/* Theme Toggle Button */}
-            {onToggleTheme && (
-                <div className="absolute top-6 right-6 z-50">
-                    <button
-                        onClick={onToggleTheme}
-                        className="px-4 py-2 text-sm font-bold rounded-lg border transition-all bg-gray-900/10 dark:bg-white/10 border-gray-300 dark:border-white/20 text-gray-700 dark:text-white hover:bg-gray-900/20 dark:hover:bg-white/20"
-                    >
-                        {isDataFileTheme ? 'Normal Theme' : 'Data File Theme'}
-                    </button>
-                </div>
-            )}
+            <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-cyan-500/10 rounded-full blur-[100px]" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-purple-500/10 rounded-full blur-[100px]" />
 
             {/* Main Content */}
             <div className="relative z-10 max-w-6xl w-full px-6 md:px-12">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
 
-                    {/* Photo Section */}
+                    {/* Photo Section - Order 1 on Mobile (First), Order 1 on Desktop (Left) */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="flex justify-center order-2 lg:order-1"
+                        className="flex justify-center order-1 lg:order-1"
                     >
-                        <GlassCard className="p-4 bg-white/40 dark:bg-white/5">
-                            <div className="relative w-[250px] h-[320px] md:w-[300px] md:h-[400px] overflow-hidden rounded-2xl">
+                        <GlassCard className="p-3 md:p-4 bg-white/40 dark:bg-white/5">
+                            <div className="relative w-[180px] h-[240px] md:w-[300px] md:h-[400px] overflow-hidden rounded-2xl">
                                 <img
-                                    src="/profile.jpg"
+                                    src={resolveImagePath('/profile.jpg')}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />
@@ -111,12 +99,12 @@ const AboutNormal = ({ onNext, onBack, onJourney, onToggleTheme, isDataFileTheme
                         </GlassCard>
                     </motion.div>
 
-                    {/* Content Section */}
+                    {/* Content Section - Order 2 on Mobile (Second), Order 2 on Desktop (Right) */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="space-y-6 order-1 lg:order-2"
+                        className="space-y-6 order-2 lg:order-2"
                     >
                         <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/50 dark:bg-white/5 border border-white/30 dark:border-white/10 backdrop-blur-md">
                             <User size={18} className="text-blue-500" />

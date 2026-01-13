@@ -190,7 +190,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input
                             type="text"
                             placeholder="Your Name"
@@ -206,7 +206,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                             className="w-full px-4 py-3 rounded-lg bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 focus:border-cyan-500 outline-none transition-colors"
                         />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input
                             type="email"
                             placeholder="Your Email"
@@ -264,7 +264,7 @@ const KaggleIcon = ({ size = 24 }) => (
     </svg>
 );
 
-const OutroAdvanced = ({ onRestart }) => {
+const OutroAdvanced = ({ onRestart, onViewResume }) => {
     const containerRef = useRef(null);
     const [isContactOpen, setIsContactOpen] = useState(false);
     const { scrollYProgress } = useScroll({
@@ -383,7 +383,7 @@ Looking forward to connecting!`;
                 <div className="text-center pt-32 border-t border-slate-200 dark:border-white/10 relative overflow-hidden">
                     <motion.div style={{ y: y1 }} className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-t from-cyan-500/10 to-transparent blur-[100px] -z-10" />
 
-                    <h2 className="text-7xl md:text-9xl font-black text-slate-900 dark:text-white mb-8 tracking-tighter opacity-90">HIRE ME</h2>
+                    <h2 className="text-5xl md:text-9xl font-black text-slate-900 dark:text-white mb-8 tracking-tighter opacity-90">HIRE ME</h2>
                     <p className="text-2xl text-slate-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
                         I'm ready to transform your data into actionable insights. <br />
                         <span className="text-cyan-600 dark:text-cyan-400 font-bold">Let's build the future together.</span>
@@ -391,7 +391,11 @@ Looking forward to connecting!`;
 
                     {/* Primary CTA */}
                     <button
-                        onClick={() => setIsContactOpen(true)}
+                        onClick={() => {
+                            // Scroll to top of page before opening modal
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            setTimeout(() => setIsContactOpen(true), 300);
+                        }}
                         className="px-12 py-5 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-full font-bold text-xl hover:scale-105 transition-transform shadow-2xl shadow-cyan-500/30 flex items-center justify-center gap-3 mx-auto mb-12"
                     >
                         <Send size={24} /> Contact Me
@@ -454,17 +458,15 @@ Looking forward to connecting!`;
                             >
                                 <Linkedin size={20} /> LinkedIn
                             </a>
-                            <a
-                                href={profile.resumeUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="flex items-center justify-center gap-3 p-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold hover:scale-105 transition-all"
+                            <button
+                                onClick={onViewResume}
+                                className="flex items-center justify-center gap-3 p-4 rounded-xl bg-white text-black font-bold hover:scale-105 transition-all"
                             >
                                 <Eye size={20} /> View Resume
-                            </a>
+                            </button>
                             <a
-                                href={profile.resumeUrl}
-                                download
+                                href="/src/assets/Nikhil Data Analyst Resume.pdf"
+                                download="Nikhil_Shrivastav_Resume.pdf"
                                 className="flex items-center justify-center gap-3 p-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold hover:scale-105 transition-all col-span-2 md:col-span-1"
                             >
                                 <Download size={20} /> Download Resume

@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Intro from './components/Intro';
 import Story from './components/Story';
-// Toggle between Outro (original) and OutroAdvanced (new with contact features)
 import Outro from './components/Outro';
 import OutroAdvanced from './components/OutroAdvanced';
 import CaseStudy from './components/CaseStudy';
-import About from './components/About';
 import AboutNormal from './components/AboutNormal';
+import ResumeView from './components/ResumeView';
+
+import ThemeToggle from './components/ui/ThemeToggle';
 
 // SET TO true TO USE THE NEW OUTRO WITH ALL CONTACT FEATURES
 const USE_ADVANCED_OUTRO = true;
 
 const App = () => {
-  const [view, setView] = useState('intro'); // 'intro', 'about', 'story', 'outro', 'case-study'
+  const [view, setView] = useState('intro'); // 'intro', 'about', 'story', 'outro', 'case-study', 'resume'
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
-  const [useDataFileTheme, setUseDataFileTheme] = useState(true);
 
   const handleViewCaseStudy = (project, index) => {
     setSelectedProject(project);
@@ -28,10 +28,12 @@ const App = () => {
     setView('story');
   };
 
-  const AboutComponent = useDataFileTheme ? About : AboutNormal;
-
   return (
-    <div className="bg-black min-h-screen text-white font-sans selection:bg-blue-500 selection:text-white overflow-hidden">
+    <div className="bg-gray-50 dark:bg-black min-h-screen text-gray-900 dark:text-white font-sans selection:bg-blue-500 selection:text-white overflow-hidden transition-colors duration-500">
+      {/* Global Theme Toggle */}
+      <div className="fixed top-6 right-6 z-[100]">
+        <ThemeToggle />
+      </div>
 
       <AnimatePresence mode="wait">
         {view === 'intro' && (
@@ -49,19 +51,17 @@ const App = () => {
 
         {view === 'about' && (
           <motion.div
-            key={`about-${useDataFileTheme ? 'data' : 'normal'}`}
+            key="about"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
             transition={{ duration: 0.8 }}
             className="absolute inset-0 z-20"
           >
-            <AboutComponent
+            <AboutNormal
               onNext={() => setView('story')}
               onBack={() => setView('intro')}
               onJourney={() => setView('outro')}
-              onToggleTheme={() => setUseDataFileTheme(!useDataFileTheme)}
-              isDataFileTheme={useDataFileTheme}
             />
           </motion.div>
         )}
@@ -110,10 +110,26 @@ const App = () => {
             className="absolute inset-0 z-30 overflow-y-auto"
           >
             {USE_ADVANCED_OUTRO ? (
-              <OutroAdvanced onRestart={() => setView('intro')} />
+              <OutroAdvanced
+                onRestart={() => setView('intro')}
+                onViewResume={() => setView('resume')}
+              />
             ) : (
               <Outro onRestart={() => setView('intro')} />
             )}
+          </motion.div>
+        )}
+
+        {view === 'resume' && (
+          <motion.div
+            key="resume"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 z-50 overflow-y-auto"
+          >
+            <ResumeView onBack={() => setView('outro')} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -122,3 +138,4 @@ const App = () => {
 };
 
 export default App;
+

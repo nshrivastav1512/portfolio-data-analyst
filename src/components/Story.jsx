@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Maximize2 } from 'lucide-react';
 import { projects } from '../data/projects';
 import GlassCard from './ui/GlassCard';
 import { cn } from '../utils/cn';
 import { resolveImagePath } from '../utils/imageHelper';
 
-const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
+const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0, onOpenViewer, isViewerOpen }) => {
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [direction, setDirection] = useState(1);
     const [imageIndex, setImageIndex] = useState(0);
@@ -19,16 +19,16 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
         setImageIndex(0);
     }, [currentIndex]);
 
-    // Auto-rotate images
+    // Auto-rotate images (Pause if viewer is open)
     useEffect(() => {
-        if (!currentProject.images || currentProject.images.length <= 1) return;
+        if (!currentProject.images || currentProject.images.length <= 1 || isViewerOpen) return;
 
         const interval = setInterval(() => {
             setImageIndex(prev => (prev + 1) % currentProject.images.length);
         }, 4000);
 
         return () => clearInterval(interval);
-    }, [currentProject]);
+    }, [currentProject, isViewerOpen]);
 
     const handleNext = () => {
         if (currentIndex < projects.length - 1) {
@@ -274,7 +274,10 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
                                             </div>
 
                                             {/* Content Area (Image Carousel) */}
-                                            <div className="flex-1 relative overflow-hidden bg-gray-100 dark:bg-[#1a1a1a] flex items-center justify-center w-full">
+                                            <div
+                                                className="flex-1 relative overflow-hidden bg-gray-100 dark:bg-[#1a1a1a] flex items-center justify-center w-full cursor-zoom-in group/image"
+                                                onClick={() => onOpenViewer(currentProject.images, imageIndex)}
+                                            >
                                                 <AnimatePresence mode="wait">
                                                     <motion.img
                                                         key={currentProject.images?.[imageIndex] || 'placeholder'}
@@ -291,9 +294,14 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
                                                 {/* Overlay Gradient */}
                                                 <div className={`absolute inset-0 opacity-20 ${currentProject.imageColor} mix-blend-overlay pointer-events-none`}></div>
 
+                                                {/* Zoom Hint - Reduced Blur */}
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/image:opacity-100 transition-opacity bg-black/5 backdrop-blur-[0px]">
+                                                    <Maximize2 className="text-white drop-shadow-lg" size={32} />
+                                                </div>
+
                                                 {/* Carousel Indicators */}
                                                 {currentProject.images && currentProject.images.length > 1 && (
-                                                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                                                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10" onClick={(e) => e.stopPropagation()}>
                                                         {currentProject.images.map((_, idx) => (
                                                             <div
                                                                 key={idx}
@@ -321,8 +329,6 @@ const Story = ({ onBack, onFinish, onViewCaseStudy, initialIndex = 0 }) => {
                 >
                     <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-white/70 group-hover:text-black dark:group-hover:text-white" />
                 </button>
-
-
 
                 <button
                     onClick={handleNext}

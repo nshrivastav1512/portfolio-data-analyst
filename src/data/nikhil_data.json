@@ -1,0 +1,147 @@
+{
+  "application_form_data": {
+    "personal_details": {
+      "full_legal_name": "Nikhil Dhirendra Shrivastav",
+      "date_of_birth": {
+        "format": "dd-mm-yyyy",
+        "value": "01-06-2001"
+      },
+      "gender": "Male",
+      "marital_status": "Single",
+      "nationality": "Indian",
+      "contact_information": {
+        "email": "nshrivastav0905@gmail.com",
+        "phone": "+91 9067557516",
+        "current_address": {
+          "street": "Shanti Home, 40 feet road, Near SNBP School",
+          "city": "Mundwa",
+          "state": "Pune, MS",
+          "zip_code": "411036",
+          "country": "India"
+        },
+        "permanent_address": "Same as current"
+      },
+      "professional_links": {
+        "linkedin": "https://www.linkedin.com/in/nshrivastav1512/",
+        "github": "https://github.com/nshrivastav1512"
+      }
+    },
+    "professional_summary": "A results-driven data analyst with over 2 years of experience combining software engineering and analytics. I use Python and SQL to construct end-to-end data solutions. My expertise spans from automated data scraping using Selenium and reliable ETL pipelines to advanced AI integration through prompt engineering, creating impactful Power BI dashboards. Through my efforts, I have directly improved report performance by 10%, upheld data integrity, identified 100+ at-risk learners 8 weeks early, increased job application response rates by 30%, and increased customer satisfaction by 150+.",
+    "experience_details": {
+      "total_experience_years": 2.7,
+      "employment_gap_explanation": "Due to a family issue, I had to resign from my previous role. I took some time to focus on my family, during which I joined an contract based job to keep my skills sharp. I am now fully available and eager to commit to a full-time job.",
+      "employment_history": [
+        {
+          "job_title": "Data Analytics ",
+          "company": "Brillect Tech Solutions Pvt. Ltd",
+          "location": "Nagpur",
+          "start_date": "10-10-2024",
+          "end_date": "10-06-2025",
+          "date_format": "dd-mm-yyyy",
+          "description": [
+            "Engineered an end-to-end Job application pipeline that scrapes 40+ jobs/min from multiple platforms using Selenium into a SQL Server database. This system uses a fine-tuned Gemini model to tailor resumes, resulting in a 30% increase in response rates, boosting resume-to-job match scores by over 40%, and a 50% reduction in application time.",
+            "Developed Student Success Intelligence Platform in Power BI, powered by an automated SQL Server, ETL pipeline (processing 100k+ records, 9 tables, 35+ attributes) and with advance DAX. The solution immediately provided coordinators with actionable insights, saving coordinators 50+ hours/month, identifying 100+ at-risk students 8 weeks early, and boosting success rates by 25%."
+          ]
+        },
+        {
+          "job_title": "Software Engineer",
+          "company": "Yardi Software Pvt Ltd",
+          "location": "Pune",
+          "start_date": "10-07-2023",
+          "end_date": "10-08-2024",
+          "date_format": "dd-mm-yyyy",
+          "description": [
+            "Developed and optimized 100+ custom reports (SSRS, YSR, Power BI) for clients, resolved 10+ critical bugs in the Voyager project, and provided data fixes for over 7 million records, ensuring 100% data integrity and improving system stability.",
+            "Handled support for 150+ clients and processed 500+ requests, collaborating with onshore/offshore teams to resolve issues, clarify tasks, and streamline code reviews, resulting in a 10% improvement in delivery and client satisfaction.",
+            "Engineered complex SQL queries, stored procedures, triggers, and user-defined functions, improving query performance by 5% and performed data preprocessing. Mentored team members, delivered KT sessions, and gained expertise in Power BI, Excel, Data Analytic Life cycles, driving team proficiency and effective data visualizations."
+          ]
+        },
+        {
+          "job_title": "Software Engineer Intern",
+          "company": "Yardi Software Pvt Ltd",
+          "location": "Pune",
+          "start_date": "10-01-2023",
+          "end_date": "10-07-2023",
+          "date_format": "dd-mm-yyyy",
+          "description": [
+            "Created optimal technical solutions to meet user needs by performing in-depth system analysis and improving existing SQL queries to enhance performance and streamline data retrieval.",
+            "Analyzed business reports to support prompt communication and provide ongoing technical support, while also developing reusable components to improve coding efficiency and documentation standards.",
+            "Resolved complex business issues, proposing long-term solutions to prevent recurring problems and ensure smoother business operations."
+          ]
+        },
+        {
+          "job_title": "Software Developer",
+          "company": "TN Byte Pvt Ltd",
+          "location": "Nagpur",
+          "start_date": "10-06-2022",
+          "end_date": "10-01-2023",
+          "date_format": "dd-mm-yyyy",
+          "description": [
+            "Automated user engagement reporting by designing SQL queries to consolidate data from attendance, task completion, and performance tables into a unified dashboard.",
+            "Optimized database performance by redesigning schemas, normalizing structures, and adding relationships to support faster and more efficient data retrieval.",
+            "Tested and refined pre-built reports, enhancing data accuracy and usability to meet reporting requirements."
+          ]
+        }
+      ]
+    },
+    "skills_matrix": {
+      "bi_tools": ["Power BI (DAX, Power Query, Power Pivot)", "Tableau", "Excel (Advanced)", "SSRS", "SSIS"],
+      "data_engineering_management": ["Web Scraping (Selenium)", "Data Design", "Crawling (Crawl4ai)", "ETL Processes", "Data Cleaning", "Preprocessing", "Generative AI", "Prompt Engineering", "Normalization", "Data Quality Assessment"],
+      "programming_databases": ["Databases (SQL Server, MySQL)", "SQL (PL/SQL, T-SQL)", "Java", "Python (Pandas, NumPy, Matplotlib, Seaborn, Streamlit, BeautifulSoup)"],
+      "data_analysis": ["Statistical Analysis", "Modeling", "Storytelling", "KPI's", "A/B Testing", "Exploratory Data Analysis (EDA)"],
+      "databases_tools": ["Version Control (Git, GitHub)", "IDE & Notebooks (VS Code, Jupyter)", "Project Management (Agile/Scrum, Jira)"],
+      "professional_soft_skills": ["Problem-Solving", "Critical Thinking", "Attention to Detail", "Team Collaboration", "Communication", "Requirement Analysis", "Mentoring", "Root Cause Analysis"],
+      "languages_spoken": [
+        {"language": "English", "proficiency": "Proficient"},
+        {"language": "Hindi", "proficiency": "Proficient"},
+        {"language": "Marathi", "proficiency": "Intermediate"}
+      ]
+    },
+    "education_details": {
+      "qualifications": [
+        {
+          "degree": "B.Tech - Bachelor of Technology",
+          "major": "Computer Science and Engineering",
+          "institution": "Rashtrasant Tukadoji Maharaj Nagpur University (RTMNU)",
+          "board": "G H Raisoni Institute of Engineering & Technology",
+          "location": "Nagpur",
+          "start_date": "10-06-2020",
+          "end_date": "10-05-2023",
+          "date_format": "dd-mm-yyyy",
+          "score": "9.4",
+          "score_unit": "CGPA"
+        },
+        {
+          "degree": "Diploma",
+          "major": "Computer Science",
+          "institution": "Maharashtra State Board of Technical Education (MSBTE)",
+          "board": "Anjuman Polytechnic",
+          "location": "Nagpur",
+          "start_date": "10-06-2017",
+          "end_date": "10-05-2020",
+          "date_format": "dd-mm-yyyy",
+          "score": "9.4",
+          "score_unit": "CGPA"
+        }
+      ]
+    },
+    "job_preferences": {
+      "current_ctc_lpa": 5.5,
+      "expected_ctc_lpa": 7.1,
+      "notice_period": "Immediately Available",
+      "reason_for_change": "I am seeking a full-time role to apply and expand my skills in data analytics and contribute to a growth-oriented organization.",
+      "preferred_work_locations": ["Pune", "Nagpur", "Bangalore", "Hyderabad", "Any where in India"],
+      "willing_to_relocate": true,
+      "willing_to_travel": true,
+      "industry": "Information Technology & Services",
+      "functional_area": "Data Science & Analytics",
+      "role": "Data Analyst"
+    },
+    "additional_information": {
+      "work_authorization_country": "India",
+      "requires_sponsorship": true,
+      "criminal_conviction_history": false,
+      "professional_references_available": true
+    }
+  }
+}

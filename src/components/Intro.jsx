@@ -153,7 +153,7 @@ const Intro = ({ onNext }) => {
                         <div className="relative z-10 space-y-8">
                             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/50 dark:bg-white/5 border border-white/30 dark:border-white/10 backdrop-blur-md shadow-sm">
                                 <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-blue-400 to-green-400 shadow-inner animate-pulse"></div>
-                                <span className="font-semibold text-gray-800 dark:text-white tracking-wide text-sm uppercase">Portfolio 2026</span>
+                                <span className="font-semibold text-gray-800 dark:text-white tracking-wide text-sm uppercase">Nikhil's Portfolio</span>
                             </div>
 
                             <h1 className="text-4xl md:text-7xl font-bold leading-[1.1] tracking-tight drop-shadow-sm dark:drop-shadow-2xl text-gray-900 dark:text-white">
@@ -172,15 +172,17 @@ const Intro = ({ onNext }) => {
                                 Explore a collection of data-driven stories, interactive dashboards, and analytical solutions.
                             </motion.p>
 
-                            <button
-                                onClick={onNext}
-                                className="relative px-10 py-4 bg-gray-900 dark:bg-white text-white dark:text-neutral-900 font-bold text-lg rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg overflow-hidden group/btn"
-                            >
-                                <span className="relative z-10 flex items-center gap-2">
-                                    Start Journey <MousePointer2 size={20} />
-                                </span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 dark:via-neutral-200 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500"></div>
-                            </button>
+                            <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                                <button
+                                    onClick={onNext}
+                                    className="relative px-10 py-4 bg-gray-900 dark:bg-white text-white dark:text-neutral-900 font-bold text-lg rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg overflow-hidden group/btn"
+                                >
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        Start Journey <MousePointer2 size={20} />
+                                    </span>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 dark:via-neutral-200 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500"></div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

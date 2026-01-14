@@ -393,7 +393,7 @@ Looking forward to connecting!`;
                     <button
                         onClick={() => {
                             // Scroll to top of page before opening modal
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            containerRef.current?.scrollIntoView({ behavior: 'smooth' });
                             setTimeout(() => setIsContactOpen(true), 300);
                         }}
                         className="px-12 py-5 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-full font-bold text-xl hover:scale-105 transition-transform shadow-2xl shadow-cyan-500/30 flex items-center justify-center gap-3 mx-auto mb-12"

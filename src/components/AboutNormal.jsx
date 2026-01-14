@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ChevronLeft, BarChart3, Database, Code, Zap, User } from 'lucide-react';
+import { ArrowRight, ChevronLeft, BarChart3, Database, Code, Zap, User, Brain, PieChart, Maximize2 } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
 import { resolveImagePath } from '../utils/imageHelper';
 
@@ -46,21 +46,23 @@ const RotatingTypingText = ({ roles, className = '' }) => {
     );
 };
 
-const AboutNormal = ({ onNext, onBack, onJourney }) => {
+const AboutNormal = ({ onNext, onBack, onJourney, onOpenViewer }) => {
     const roles = [
         "Data Analyst",
-        "Prompt Engineer",
-        "Data Storyteller",
-        "Software Engineer",
-        "L2 SQL Support",
-        "BI Developer"
+        "Business Analyst",
+        "Research Analyst",
+        "MSBI Developer",
+        "MIS Engineer",
+        "Vibe Coder",
+        "AI Automation Developer",
+        "Data Storyteller"
     ];
 
     const skills = [
-        { name: "Data Engineering", level: 95, icon: Database },
-        { name: "Visualization", level: 90, icon: BarChart3 },
-        { name: "Python & SQL", level: 88, icon: Code },
-        { name: "Machine Learning", level: 75, icon: Zap },
+        { name: "Visualization", level: 95, icon: BarChart3 },
+        { name: "BI Tools", level: 90, icon: PieChart },
+        { name: "Gen AI", level: 85, icon: Brain },
+        { name: "Programming & Database", level: 98, icon: Database },
     ];
 
     return (
@@ -88,13 +90,22 @@ const AboutNormal = ({ onNext, onBack, onJourney }) => {
                         className="flex justify-center order-1 lg:order-1"
                     >
                         <GlassCard className="p-3 md:p-4 bg-white/40 dark:bg-white/5">
-                            <div className="relative w-[180px] h-[240px] md:w-[300px] md:h-[400px] overflow-hidden rounded-2xl">
+                            <div
+                                className="relative w-[180px] h-[240px] md:w-[300px] md:h-[400px] overflow-hidden rounded-2xl cursor-zoom-in group"
+                                onClick={() => onOpenViewer && onOpenViewer('/profile.jpg')}
+                            >
                                 <img
                                     src={resolveImagePath('/profile.jpg')}
                                     alt="Profile"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+
+                                {/* Hover Hint */}
+                                <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <Maximize2 className="text-white drop-shadow-md" size={32} />
+                                </div>
+
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                             </div>
                         </GlassCard>
                     </motion.div>

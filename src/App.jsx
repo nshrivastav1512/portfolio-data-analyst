@@ -1,22 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Intro from './components/Intro';
 import Story from './components/Story';
-import Outro from './components/Outro';
 import OutroAdvanced from './components/OutroAdvanced';
 import CaseStudy from './components/CaseStudy';
 import AboutNormal from './components/AboutNormal';
 import ResumeView from './components/ResumeView';
+import ImageViewer from './components/ui/ImageViewer';
 
 import ThemeToggle from './components/ui/ThemeToggle';
 
-// SET TO true TO USE THE NEW OUTRO WITH ALL CONTACT FEATURES
-const USE_ADVANCED_OUTRO = true;
+import ErrorBoundary from './components/ErrorBoundary';
+
+// Lazy load ChatWidget
+const ChatWidget = React.lazy(() => import('./components/Chat/ChatWidget'));
 
 const App = () => {
   const [view, setView] = useState('intro'); // 'intro', 'about', 'story', 'outro', 'case-study', 'resume'
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [isChatOpen, setIsChatOpen] = useState(true); // Always open (but minimized)
+  const [isChatMinimized, setIsChatMinimized] = useState(true); // Start minimized
+
+  // Global Image Viewer State
+  const [viewerState, setViewerState] = useState({ isOpen: false, images: [], currentIndex: 0 });
+
+  const openViewer = (images, index = 0) => {
+    const imgArray = Array.isArray(images) ? images : [images];
+    setViewerState({ isOpen: true, images: imgArray, currentIndex: index });
+  };
+
+  const closeViewer = () => {
+    setViewerState(prev => ({ ...prev, isOpen: false }));
+  };
+
+  const nextImage = () => {
+    setViewerState(prev => ({
+      ...prev,
+      currentIndex: (prev.currentIndex + 1) % prev.images.length
+    }));
+  };
+
+  const prevImage = () => {
+    setViewerState(prev => ({
+      ...prev,
+      currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length
+    }));
+  };
 
   const handleViewCaseStudy = (project, index) => {
     setSelectedProject(project);
@@ -30,10 +60,36 @@ const App = () => {
 
   return (
     <div className="bg-gray-50 dark:bg-black min-h-screen text-gray-900 dark:text-white font-sans selection:bg-blue-500 selection:text-white overflow-hidden transition-colors duration-500">
-      {/* Global Theme Toggle */}
-      <div className="fixed top-6 right-6 z-[100]">
-        <ThemeToggle />
-      </div>
+
+      {/* Global Theme Toggle - Hidden when Image Viewer is open */}
+      {!viewerState.isOpen && (
+        <div className="fixed top-6 right-6 z-[100]">
+          <ThemeToggle />
+        </div>
+      )}
+
+      {/* Global Image Viewer */}
+      <ImageViewer
+        isOpen={viewerState.isOpen}
+        onClose={closeViewer}
+        images={viewerState.images}
+        currentIndex={viewerState.currentIndex}
+        onNext={nextImage}
+        onPrev={prevImage}
+      />
+
+      {/* Chat Widget */}
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <ChatWidget
+            isOpen={isChatOpen}
+            onClose={() => setIsChatOpen(false)}
+            isMinimized={isChatMinimized}
+            setIsMinimized={setIsChatMinimized}
+            onNavigate={(target) => setView(target)}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       <AnimatePresence mode="wait">
         {view === 'intro' && (
@@ -45,7 +101,7 @@ const App = () => {
             transition={{ duration: 0.8 }}
             className="absolute inset-0 z-10"
           >
-            <Intro onNext={() => setView('about')} />
+            <Intro onNext={() => setView('about')} onChat={() => { setIsChatOpen(true); setIsChatMinimized(false); }} />
           </motion.div>
         )}
 
@@ -62,6 +118,7 @@ const App = () => {
               onNext={() => setView('story')}
               onBack={() => setView('intro')}
               onJourney={() => setView('outro')}
+              onOpenViewer={openViewer}
             />
           </motion.div>
         )}
@@ -80,6 +137,8 @@ const App = () => {
               onFinish={() => setView('outro')}
               onViewCaseStudy={handleViewCaseStudy}
               initialIndex={currentProjectIndex}
+              onOpenViewer={openViewer}
+              isViewerOpen={viewerState.isOpen}
             />
           </motion.div>
         )}
@@ -96,6 +155,8 @@ const App = () => {
             <CaseStudy
               project={selectedProject}
               onBack={handleBackFromCaseStudy}
+              onOpenViewer={openViewer}
+              isViewerOpen={viewerState.isOpen}
             />
           </motion.div>
         )}
@@ -109,14 +170,10 @@ const App = () => {
             transition={{ duration: 0.8 }}
             className="absolute inset-0 z-30 overflow-y-auto"
           >
-            {USE_ADVANCED_OUTRO ? (
-              <OutroAdvanced
-                onRestart={() => setView('intro')}
-                onViewResume={() => setView('resume')}
-              />
-            ) : (
-              <Outro onRestart={() => setView('intro')} />
-            )}
+            <OutroAdvanced
+              onRestart={() => setView('intro')}
+              onViewResume={() => setView('resume')}
+            />
           </motion.div>
         )}
 
@@ -138,4 +195,3 @@ const App = () => {
 };
 
 export default App;
-

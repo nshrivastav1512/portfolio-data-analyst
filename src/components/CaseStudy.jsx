@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, ExternalLink, Calendar, Wrench, BarChart2, FileText, CheckCircle, TrendingUp, Database, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Calendar, Wrench, BarChart2, FileText, CheckCircle, TrendingUp, Database, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import GlassCard from './ui/GlassCard';
 import { resolveImagePath } from '../utils/imageHelper';
 
-const CaseStudy = ({ project, onBack }) => {
+const CaseStudy = ({ project, onBack, onOpenViewer, isViewerOpen }) => {
     const { scrollYProgress } = useScroll();
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -21,23 +21,25 @@ const CaseStudy = ({ project, onBack }) => {
 
     // Auto-rotate images
     useEffect(() => {
-        if (!project?.images || project.images.length <= 1) return;
+        if (!project?.images || project.images.length <= 1 || isViewerOpen) return;
         const interval = setInterval(() => {
             setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
         }, 4000);
         return () => clearInterval(interval);
-    }, [project]);
+    }, [project, isViewerOpen]);
 
     if (!project) return null;
 
     const caseStudy = project.caseStudy;
     const images = project.images || [];
 
-    const nextImage = () => {
+    const nextImage = (e) => {
+        e?.stopPropagation();
         setCurrentImageIndex((prev) => (prev + 1) % images.length);
     };
 
-    const prevImage = () => {
+    const prevImage = (e) => {
+        e?.stopPropagation();
         setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
     };
 
@@ -278,7 +280,10 @@ const CaseStudy = ({ project, onBack }) => {
                                 </div>
 
                                 {/* Image Container */}
-                                <div className="relative aspect-video">
+                                <div
+                                    className="relative aspect-video cursor-zoom-in group/image"
+                                    onClick={() => onOpenViewer && onOpenViewer(images, currentImageIndex)}
+                                >
                                     <AnimatePresence mode="wait">
                                         <motion.img
                                             key={currentImageIndex}
@@ -291,6 +296,11 @@ const CaseStudy = ({ project, onBack }) => {
                                             className="w-full h-full object-cover"
                                         />
                                     </AnimatePresence>
+
+                                    {/* Hover Hint */}
+                                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                        <Maximize2 className="text-white drop-shadow-md" size={48} />
+                                    </div>
                                 </div>
                             </div>
 
